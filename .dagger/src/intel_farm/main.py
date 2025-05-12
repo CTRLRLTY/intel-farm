@@ -142,3 +142,51 @@ class IntelFarm:
         )
 
         return await con
+
+    @function
+    async def test_api_server(self) -> str:
+        postgres: dagger.Container = (await self.postgres())
+        server: dagger.Container = (await self.apiserver())
+        ftp_sql = await dag.current_module().source().file("airflow/dags/sql/ftp.sql")
+        services_sql = await dag.current_module().source().file("airflow/dags/sql/services.sql")
+        targets_sql = await dag.current_module().source().file("airflow/dags/sql/targets.sql")
+        test_py = await dag.current_module().source().file("test/test_rest_api.py")
+
+        postgres_service = (
+            postgres
+            .with_mounted_file("/docker-entrypoint-initdb.d/02-targets.sql", targets_sql)
+            .with_mounted_file("/docker-entrypoint-initdb.d/03-ftp.sql", ftp_sql)
+            .with_mounted_file("/docker-entrypoint-initdb.d/04-services.sql", services_sql)
+            .with_new_file("/docker-entrypoint-initdb.d/05-init.sql", """
+                INSERT INTO targets (ip_addr, org)
+                VALUES
+                    ('192.0.0.1', 'org1'),
+                    ('192.0.0.2', 'org2');
+                           
+                INSERT INTO ftp (target, is_anon)
+                VALUES
+                    ('192.0.0.1', true),
+                    ('192.0.0.2', true);
+            """)
+            .as_service()
+        )
+
+        server_service = (            
+            server
+            .with_service_binding("postgres", postgres_service)
+            .as_service()
+        )
+
+        out = (
+            dag.container()
+            .from_("python:3.12")
+            .with_service_binding("api-server", server_service)
+            .with_env_variable("ENV_HTTP_ENDPOINT", "http://api-server:8000")
+            .with_workdir("/test")
+            .with_mounted_file("/test/test_rest_api.py", test_py)
+            .with_mounted_cache("/root/.cache/pip", dag.cache_volume("test-api-server-pip"))
+            .with_exec("pip install requests".split())
+            .with_exec("python test_rest_api.py".split())
+        )
+
+        return await out.stdout()
