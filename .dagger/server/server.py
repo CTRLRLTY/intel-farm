@@ -55,7 +55,7 @@ async def add_target_note(note_create: SQLNoteCreate, session: PgSessionDep):
         session.refresh(note)
     except IntegrityError as e:
         raise HTTPException(status_code=400, detail=repr(e.orig))
-    return note.id
+    return {'id': note.id}
 
 
 @app.get("/target/note/{id}")
@@ -63,7 +63,7 @@ async def get_target_note(id: int, session: PgSessionDep):
     note = session.get(SQLNoteTable, id)
 
     if not note:
-        raise HTTPException(status_code=404)
+        raise HTTPException(status_code=404, detail="does not exist")
     
     return note
 
@@ -81,7 +81,7 @@ async def upd_target_node(id: int, note_edit: SQLNoteEdit, session: PgSessionDep
     session.commit()
     session.refresh(note)
 
-    return note_data
+    return note
 
 
 @app.delete("/target/note/{id}")
