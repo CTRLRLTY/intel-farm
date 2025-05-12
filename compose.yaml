@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: "local/postgres:latest"
+    ports:
+      - "5432:5432"
+  apiserver:
+    image: "local/api_server:latest"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+  kafka_controller:
+    image: "local/kafka_controller:latest"
+  kafka_broker:
+    image: "local/kafka_broker:latest"
+    ports:
+      - "9092:9092"
+    depends_on:
+      - kafka_controller
+  airflow:
+    image: "local/airflow:latest"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - kafka_controller
+      - kafka_broker
+      - postgres

@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS ftp (
+    -- id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY ,
+    target INET PRIMARY KEY REFERENCES targets(ip_addr) ON DELETE CASCADE,
+    -- target INET REFERENCES targets(ip_addr) UNIQUE,
+    is_anon BOOLEAN
+);

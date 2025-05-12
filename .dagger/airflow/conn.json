@@ -1,0 +1,102 @@
+{
+  "kafka_shodan": {
+    "conn_type": "kafka",
+    "description": null,
+    "login": null,
+    "password": null,
+    "host": null,
+    "port": null,
+    "schema": null,
+    "extra": "{\n  \"bootstrap.servers\": \"kafka_broker:9092\",\n  \"client.id\": \"airflow_dag_conn\"\n}"
+  },
+  "kafka_shodan_ftp": {
+    "conn_type": "kafka",
+    "description": null,
+    "login": null,
+    "password": null,
+    "host": null,
+    "port": null,
+    "schema": null,
+    "extra": "{\n  \"bootstrap.servers\": \"kafka_broker:9092\",\n  \"client.id\": \"airflow_dag_conn\",\n  \"auto.offset.reset\": \"beginning\",\n  \"group.id\": \"shodan_ftp\",\n  \"enable.auto.commit\": false\n}"
+  },
+  "kafka_shodan_services": {
+    "conn_type": "kafka",
+    "description": null,
+    "login": null,
+    "password": null,
+    "host": null,
+    "port": null,
+    "schema": null,
+    "extra": "{\n  \"bootstrap.servers\": \"kafka_broker:9092\",\n  \"client.id\": \"airflow_dag_conn\",\n  \"auto.offset.reset\": \"beginning\",\n  \"group.id\": \"shodan_services\",\n  \"enable.auto.commit\": false\n}"
+  },
+  "kafka_shodan_targets": {
+    "conn_type": "kafka",
+    "description": null,
+    "login": null,
+    "password": null,
+    "host": null,
+    "port": null,
+    "schema": null,
+    "extra": "{\n  \"bootstrap.servers\": \"kafka_broker:9092\",\n  \"client.id\": \"airflow_dag_conn\",\n  \"auto.offset.reset\": \"beginning\",\n  \"group.id\": \"shodan_targets\",\n  \"enable.auto.commit\": false\n}"
+  },
+  "kafka_upsert_ftp_pg": {
+    "conn_type": "kafka",
+    "description": null,
+    "login": null,
+    "password": null,
+    "host": null,
+    "port": null,
+    "schema": null,
+    "extra": "{\n  \"bootstrap.servers\": \"kafka_broker:9092\",\n  \"client.id\": \"airflow_dag_conn\",\n  \"auto.offset.reset\": \"beginning\",\n  \"group.id\": \"upsert_service_pgdb\",\n  \"enable.auto.commit\": false\n}"
+  },
+  "kafka_upsert_svc_pg": {
+    "conn_type": "kafka",
+    "description": null,
+    "login": null,
+    "password": null,
+    "host": null,
+    "port": null,
+    "schema": null,
+    "extra": "{\n  \"bootstrap.servers\": \"kafka_broker:9092\",\n  \"client.id\": \"airflow_dag_conn\",\n  \"auto.offset.reset\": \"beginning\",\n  \"group.id\": \"upsert_service_pgdb\",\n  \"enable.auto.commit\": false\n}"
+  },
+  "kafka_upsert_tgt_pg": {
+    "conn_type": "kafka",
+    "description": null,
+    "login": null,
+    "password": null,
+    "host": null,
+    "port": null,
+    "schema": null,
+    "extra": "{\n  \"bootstrap.servers\": \"kafka_broker:9092\",\n  \"client.id\": \"airflow_dag_conn\",\n  \"auto.offset.reset\": \"beginning\",\n  \"group.id\": \"upsert_target_pgdb\",\n  \"enable.auto.commit\": false\n}"
+  },
+  "pg_upsert_ftp": {
+    "conn_type": "postgres",
+    "description": null,
+    "login": "postgres",
+    "password": "password",
+    "host": "postgres",
+    "port": 5432,
+    "schema": "shodan",
+    "extra": null
+  },
+  "pg_upsert_service": {
+    "conn_type": "postgres",
+    "description": null,
+    "login": "postgres",
+    "password": "password",
+    "host": "postgres",
+    "port": 5432,
+    "schema": "shodan",
+    "extra": null
+  },
+  "pg_upsert_target": {
+    "conn_type": "postgres",
+    "description": null,
+    "login": "postgres",
+    "password": "password",
+    "host": "postgres",
+    "port": 5432,
+    "schema": "shodan",
+    "extra": null
+  }
+}
